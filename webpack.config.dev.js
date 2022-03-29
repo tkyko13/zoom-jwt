@@ -2,6 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 
 const args = process.argv;
+const PORT = process.env.PORT || 3000;
+
 let https = false;
 let disableCORP = true;
 if (args.includes('https')) https = true;
@@ -66,7 +68,7 @@ module.exports = {
     cert: './localhost.crt',
     key: './localhost.key',
     host: '0.0.0.0',
-    port: process.env.PORT || 3000,
+    port: PORT,
     hot: true,
     overlay: true,
     historyApiFallback: false,
@@ -74,13 +76,13 @@ module.exports = {
     disableHostCheck: true,
     headers: {
       'Access-Control-Allow-Origin': https
-        ? 'https://0.0.0.0:3000'
-        : 'http://0.0.0.0:3000',
+        ? 'https://0.0.0.0:' + PORT
+        : 'http://0.0.0.0:' + PORT,
       'Cross-Origin-Embedder-Policy': disableCORP ? '' : 'require-corp',
       'Cross-Origin-Opener-Policy': disableCORP ? '' : 'same-origin'
     },
     open: 'chrome',
-    openPage: https ? 'https://127.0.0.1:3000' : 'http://127.0.0.1:3000'
+    openPage: https ? 'https://127.0.0.1:' + PORT : 'http://127.0.0.1:' + PORT
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
